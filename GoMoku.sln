@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29411.108
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "GoMoku", "GoMoku\GoMoku.pyproj", "{7C383A41-FFE3-44EA-BAFE-A54442796B00}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7C383A41-FFE3-44EA-BAFE-A54442796B00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C383A41-FFE3-44EA-BAFE-A54442796B00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {26856AF5-A58E-485D-AA5C-0C676FE7E06C}
+	EndGlobalSection
+EndGlobal
