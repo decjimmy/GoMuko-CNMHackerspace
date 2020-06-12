@@ -2,6 +2,10 @@ import arcade
 # Import the "arcade" library
 import arcade
 
+def draw_tree(x,y):
+    arcade.draw_rectangle_filled(x, y, 20, 60, arcade.csscolor.SIENNA)
+    arcade.draw_circle_filled(x, y + 30, 30, arcade.csscolor.DARK_GREEN)
+
 # Open up a window.
 # From the "arcade" library, use a function called "open_window"
 # Set the window title to "Drawing Example"
@@ -18,8 +22,8 @@ arcade.start_render()
 # Left of 0, right of 599
 # Top of 300, bottom of 0
 arcade.draw_lrtb_rectangle_filled(0, 599, 300, 0, arcade.csscolor.GREEN)
-arcade.draw_rectangle_filled(100, 320, 20, 60, arcade.csscolor.SIENNA)
-arcade.draw_circle_filled(100, 350, 30, arcade.csscolor.DARK_GREEN)
+draw_tree(100, 320)
+draw_tree(220, 320)
 
 # Finish drawing
 arcade.finish_render()
