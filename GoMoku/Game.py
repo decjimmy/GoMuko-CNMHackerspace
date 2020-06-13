@@ -12,20 +12,29 @@ class Game(object):
         for x in range(0,15):
             self.board.append([])
             for y in range(0,15):
-                self.board[x].append(0)
+                self.board[x].append('0')
     def place_piece(self,player, x, y):
         """player: the player playing 1 is white, 2 is black
            x: x coord of place to place piece
            y: y coord of place to place piece """
         
         if player == 1 or player == 2:
-            self.board[x][y] = player
-            self.check_win(player, x, y)
+            self.board[x][y] = str(player)
+            return self.check_win(player, x, y)
         else:
             """TODO: add error protection"""
             print('invalid player')
+            return False
     def check_row(self, player, x, y):
+        row = ''.join(self.board[x])
+        if player == 1:
+            if "11111" in row:
+                return True
+        if player == 2:
+            if "22222" in row:
+                return True
         return False
+
     def check_column(self, player, x, y):
         return False
     def check_diagonal(self, player, x, y):
@@ -33,11 +42,11 @@ class Game(object):
     def check_win(self, player, x, y):
         """checks if play is a winning move"""
         
-        if this.check_row(player, x,y):
+        if self.check_row(player, x,y):
             return True
-        elif this.check_column(player, x,y):
+        elif self.check_column(player, x,y):
             return True
-        elif this.check_diagonal(player, x,y):
+        elif self.check_diagonal(player, x,y):
             return True
 
 
@@ -48,6 +57,10 @@ if __name__ == "__main__":
     g = Game()
     g.generate_board()
     g.place_piece(1,2,3)
+    g.place_piece(1,2,4)
+    g.place_piece(1,2,5)
+    g.place_piece(1,2,6)
+    g.place_piece(1,2,7)
     print (g.board)
 
 
