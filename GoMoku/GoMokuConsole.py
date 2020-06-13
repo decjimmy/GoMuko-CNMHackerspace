@@ -7,6 +7,7 @@ class GoMokuConsole(object):
         board = self.game.board
         for x in range(len(board)):
             for y in range(len(board[x])):
+                
                 print (board[x][y], end=' ')
             print()
 
@@ -18,6 +19,11 @@ class GoMokuConsole(object):
 
 g = GoMokuConsole()
 g.placePiece(1, 3,4)
+g.placePiece(1, 4,4)
+g.placePiece(1, 5,4)
+g.placePiece(1, 6,4)
+g.placePiece(1, 7,4)
+
 g.drawBoard()
 
 
