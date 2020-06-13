@@ -20,9 +20,14 @@ class Game(object):
         
         if player == 1 or player == 2:
             self.board[x][y] = player
+            self.check_win(player, x, y)
         else:
             """TODO: add error protection"""
             print('invalid player')
+    def check_win(self, player, x, y):
+        """checks if play is a winning move"""
+        pass
+
 if __name__ == "__main__":
     g = Game()
     g.generate_board()
