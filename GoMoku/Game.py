@@ -26,6 +26,7 @@ class Game(object):
             print('invalid player')
             return False
     def check_row(self, player, x, y):
+        """checks to see if there are 5 matching player symbols in a row"""
         row = ''.join(self.board[x])
         if player == 1:
             if "11111" in row:
@@ -36,8 +37,10 @@ class Game(object):
         return False
 
     def check_column(self, player, x, y):
+        """checks to see if there are 5 matching player symbols in a column"""
         return False
     def check_diagonal(self, player, x, y):
+        """checks to see if there are 5 matching player symbols in a diagonal"""
         return False
     def check_win(self, player, x, y):
         """checks if play is a winning move"""
@@ -54,6 +57,7 @@ class Game(object):
         
 
 if __name__ == "__main__":
+    #testing placement of pieces
     g = Game()
     g.generate_board()
     g.place_piece(1,2,3)
