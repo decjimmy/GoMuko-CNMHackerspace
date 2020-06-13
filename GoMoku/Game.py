@@ -24,9 +24,25 @@ class Game(object):
         else:
             """TODO: add error protection"""
             print('invalid player')
+    def check_row(self, player, x, y):
+        return False
+    def check_column(self, player, x, y):
+        return False
+    def check_diagonal(self, player, x, y):
+        return False
     def check_win(self, player, x, y):
         """checks if play is a winning move"""
-        pass
+        
+        if this.check_row(player, x,y):
+            return True
+        elif this.check_column(player, x,y):
+            return True
+        elif this.check_diagonal(player, x,y):
+            return True
+
+
+        return False
+        
 
 if __name__ == "__main__":
     g = Game()
