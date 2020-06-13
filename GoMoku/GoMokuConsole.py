@@ -13,18 +13,31 @@ class GoMokuConsole(object):
 
     def placePiece(self, player, x,y):
         self.game.place_piece(player, x, y)
-        
+    def placeMove(self, player):
+        P = ""
+        if player == 1:
+            P = "white"
+        else:
+            P = "black"
+        x = int(input(P + " player, what is the x coord of your move?"))
+        y = int(input(P + " player, what is the y coord of your move?"))
+        self.placePiece(x,y)
+
+
+
     def calc(self):
         pass
 
 g = GoMokuConsole()
-g.placePiece(1, 3,4)
-g.placePiece(1, 4,4)
-g.placePiece(1, 5,4)
-g.placePiece(1, 6,4)
-g.placePiece(1, 7,4)
+gameloop = True
+while gameloop:
+    g.drawBoard()
+    g.placeMove(1)
+    g.drawBoard()
+    g.placeMove(2)
 
-g.drawBoard()
+
+
 
 
 
