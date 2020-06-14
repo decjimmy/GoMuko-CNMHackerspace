@@ -37,7 +37,15 @@ class Game(object):
         return False
 
     def check_column(self, player, x, y):
-        """checks to see if there are 5 matching player symbols in a column"""
+        column = ''
+        for i in range(0,15):
+            column += self.board[i][y]
+        if player == 1:
+            if "11111" in column:
+                return True
+        if player == 2:
+            if "22222" in column:
+                return True
         return False
     def check_diagonal(self, player, x, y):
         """checks to see if there are 5 matching player symbols in a diagonal"""
