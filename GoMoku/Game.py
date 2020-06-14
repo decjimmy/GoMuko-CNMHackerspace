@@ -51,6 +51,9 @@ class Game(object):
                 result = self.DRAW
             else:
                 result = self.NO_WINNER
+
+        # TODO DR These descriptions of result should come from a separate method
+        #         that the UI could call if it needs to.
         if result == self.BLACK:
             print("Black wins on move", self.move)
         elif result == self.WHITE:

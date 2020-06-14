@@ -9,6 +9,7 @@ class GoMokuConsole(object):
         """Draw the game board on the console with B, W and . representing
            black pieces, white pieces, and empty spaces respectively"""
 
+        # Merge the two board representations so that black pieces are 1, white is -1, empty is 0
         board = self.game.BBoard - self.game.WBoard
         print()
         for row in board:
@@ -30,6 +31,8 @@ class GoMokuConsole(object):
     def getMove(self):
         """Prompt current player for x and y coordinate to place a piece"""
         player = self.game.player
+
+        # TODO DR method to express player as a string should be added to Game
         if player == self.game.BLACK:
             P = "Black"
         else:
@@ -40,12 +43,15 @@ class GoMokuConsole(object):
         self.placePiece(y,x)
 
 
+# TODO DR I suppose what we really need is a PlayGame() method
 if __name__ == "__main__":
     g = GoMokuConsole()
     gameloop = True
     while gameloop:
         g.drawBoard()
         g.getMove()
+
+        # TODO DR if the game is a win for one player or a draw the game should end
         g.game.check_win()
 
 
