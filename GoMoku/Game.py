@@ -4,6 +4,7 @@ class Game(object):
     """Gomoku game engine object"""
     
     def __init__(self):
+
         self.BLACK = 0
         self.WHITE = 1
         self.NO_WINNER = -1
@@ -76,10 +77,12 @@ class Game(object):
         else:
             print("No winner yet on move", self.move)
         return result
-           
+
 
 if __name__ == "__main__":
+    #testing placement of pieces
     g = Game()
+
     print("width: ", g.WIDTH)
     print("height:", g.HEIGHT)
     print("Playing to", g.WIN_LENGTH, "in a row")
@@ -107,6 +110,7 @@ if __name__ == "__main__":
     
 
   
+
 
 
 

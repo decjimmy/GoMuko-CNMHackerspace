@@ -1,11 +1,14 @@
 import Game
 class GoMokuConsole(object):
+
     """Console UI to interact with gomoku Game() engine object"""
+
 
     def __init__(self):
         self.game = Game.Game()
 
     def drawBoard(self):
+
         """Draw the game board on the console with B, W and . representing
            black pieces, white pieces, and empty spaces respectively"""
 
@@ -53,6 +56,7 @@ if __name__ == "__main__":
 
         # TODO DR if the game is a win for one player or a draw the game should end
         g.game.check_win()
+
 
 
 
