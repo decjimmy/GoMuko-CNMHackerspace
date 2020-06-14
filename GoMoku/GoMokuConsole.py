@@ -1,40 +1,52 @@
 import Game
 class GoMokuConsole(object):
-    """description of class"""
+    """Console UI to interact with gomoku Game() engine object"""
+
     def __init__(self):
         self.game = Game.Game()
+
     def drawBoard(self):
-        board = self.game.board
-        for x in range(len(board)):
-            for y in range(len(board[x])):
-                
-                print (board[x][y], end=' ')
+        """Draw the game board on the console with B, W and . representing
+           black pieces, white pieces, and empty spaces respectively"""
+
+        board = self.game.BBoard - self.game.WBoard
+        print()
+        for row in board:
+            for col in row:
+                if col == 1:
+                    print("B", end="")
+                elif col == -1:
+                    print("W", end="")
+                elif col == 0:
+                    print(".", end="")
+                else:
+                    print("?", end="") # should not happen unless boards are corrupted
             print()
 
-    def placePiece(self, player, x,y):
-        self.game.place_piece(player, x, y)
-    def placeMove(self, player):
-        P = ""
-        if player == 1:
-            P = "white"
+    def placePiece(self, x, y):
+        """Place piece of current player in column x of row y"""
+        self.game.place_piece(x, y)
+
+    def getMove(self):
+        """Prompt current player for x and y coordinate to place a piece"""
+        player = self.game.player
+        if player == self.game.BLACK:
+            P = "Black"
         else:
-            P = "black"
-        x = int(input(P + " player, what is the x coord of your move?"))
-        y = int(input(P + " player, what is the y coord of your move?"))
-        self.placePiece(x,y)
+            P = "White"
+        print("\nMove {0} ({1})".format(self.game.move, P))
+        x = int(input("X: "))
+        y = int(input("Y: "))
+        self.placePiece(y,x)
 
 
-
-    def calc(self):
-        pass
-
-g = GoMokuConsole()
-gameloop = True
-while gameloop:
-    g.drawBoard()
-    g.placeMove(1)
-    g.drawBoard()
-    g.placeMove(2)
+if __name__ == "__main__":
+    g = GoMokuConsole()
+    gameloop = True
+    while gameloop:
+        g.drawBoard()
+        g.getMove()
+        g.game.check_win()
 
 
 
