@@ -25,7 +25,8 @@ class GoMokuConsole(object):
         x = int(input(P + " player, what is the x coord of your move?"))
         y = int(input(P + " player, what is the y coord of your move?"))
         win = self.place_piece(player, x,y)
-        print( win)
+        
+        
 
     
 
@@ -34,11 +35,21 @@ class GoMokuConsole(object):
 
 g = GoMokuConsole()
 gameloop = True
+#if you subtract alternator - player you will always get next player so easy way to switch back and forth between 1 and 2
+alternator = 3
+activeplayer = 1
 while gameloop:
     g.drawBoard()
-    g.place_move(1)
+    win = g.place_move(2 - (activeplayer %2)) #wonky math that allows you to alternate between 1 and 2
     #g.drawBoard()
-    #g.placeMove(2)
+    #win = g.placeMove(2)
+    if win:
+        print("Player " + str(activeplayer) + "Has won the game")
+        again = input("Would you like to play again? y/n")
+        if again != 'y':
+            gameloop = False
+    activeplayer = alternator - activeplayer
+print ("Thank you for playing. I hope you return")
 
 
 
