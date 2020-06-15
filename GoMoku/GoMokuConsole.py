@@ -1,20 +1,16 @@
-import Game
-class GoMokuConsole(object):
+from Game import game_engine
 
+class GoMokuConsole(object):
     """Console UI to interact with gomoku Game() engine object"""
 
+    def __init__(self, game):
+        self.game = game
 
-    def __init__(self):
-        self.game = Game.Game()
 
-    def drawBoard(self):
-
-        """Draw the game board on the console with B, W and . representing
-           black pieces, white pieces, and empty spaces respectively"""
-
-        # Merge the two board representations so that black pieces are 1, white is -1, empty is 0
-        board = self.game.BBoard - self.game.WBoard
-        (w, h) = (self.game.WIDTH, self.game.HEIGHT)
+    def draw_board(self):
+        """Draw the game board."""      
+        board = self.game.game_board()
+        (w, h) = (self.game.width, self.game.height)
         print()
         for j in range(h):
             for i in range(w):
@@ -22,7 +18,7 @@ class GoMokuConsole(object):
                 c = "?"
                 if p == 1:
                     c ="○"
-                elif p == -1:
+                elif p == 2:
                     c= "●"
                 elif p == 0:
                     if i == 0:
@@ -48,35 +44,33 @@ class GoMokuConsole(object):
                 print(c, end="")
             print()
 
-    def placePiece(self, x, y):
+    def place_piece(self, x, y):
         """Place piece of current player in column x of row y"""
         self.game.place_piece(x, y)
 
-    def getMove(self):
-        """Prompt current player for x and y coordinate to place a piece"""
-        player = self.game.player
 
-        # TODO DR method to express player as a string should be added to Game
-        if player == self.game.BLACK:
-            P = "Black"
-        else:
-            P = "White"
-        print("\nMove {0} ({1})".format(self.game.move, P))
+    def get_move(self):
+        """Prompt current player for x and y coordinate to place a piece"""
+            
+        print(self.game.game_status())
         x = int(input("X: "))
         y = int(input("Y: "))
-        self.placePiece(y,x)
+        self.place_piece(y,x)
 
 
-# TODO DR I suppose what we really need is a PlayGame() method
+    def run(self):
+        while not self.game.game_over:
+            self.draw_board()
+            self.get_move()
+        self.draw_board()
+        print(self.game.game_status())
+
+
 if __name__ == "__main__":
-    g = GoMokuConsole()
-    gameloop = True
-    while gameloop:
-        g.drawBoard()
-        g.getMove()
-
-        # TODO DR if the game is a win for one player or a draw the game should end
-        g.game.check_win()
+    game = game_engine(win_length=3, player_labels=["Black"])
+    UI = GoMokuConsole(game)
+    UI.run()
+    
 
 
 
