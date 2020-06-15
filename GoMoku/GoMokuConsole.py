@@ -14,17 +14,38 @@ class GoMokuConsole(object):
 
         # Merge the two board representations so that black pieces are 1, white is -1, empty is 0
         board = self.game.BBoard - self.game.WBoard
+        (w, h) = (self.game.WIDTH, self.game.HEIGHT)
         print()
-        for row in board:
-            for col in row:
-                if col == 1:
-                    print("B", end="")
-                elif col == -1:
-                    print("W", end="")
-                elif col == 0:
-                    print(".", end="")
-                else:
-                    print("?", end="") # should not happen unless boards are corrupted
+        for j in range(h):
+            for i in range(w):
+                p = board[j][i]
+                c = "?"
+                if p == 1:
+                    c ="○"
+                elif p == -1:
+                    c= "●"
+                elif p == 0:
+                    if i == 0:
+                        if j == 0:
+                            c = "┌"
+                        elif j == h-1:
+                            c = "└"
+                        else:
+                            c = "├"
+                    elif i == w-1:
+                        if j == 0:
+                            c = "┐"
+                        elif j == h-1:
+                            c = "┘"
+                        else:
+                            c = "┤"
+                    elif j == 0:
+                        c = "┬"
+                    elif j == h-1:
+                        c = "┴"
+                    else:
+                        c = "┼"
+                print(c, end="")
             print()
 
     def placePiece(self, x, y):
