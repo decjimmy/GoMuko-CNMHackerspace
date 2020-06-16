@@ -55,7 +55,7 @@ class GoMokuConsole(object):
         print(self.game.game_status())
         x = input("X: ")
         y = input("Y: ")
-        print(self.place_piece(y,x))
+        print(self.place_piece(x,y))
 
 
     def run(self):
