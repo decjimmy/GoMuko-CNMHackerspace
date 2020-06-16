@@ -55,19 +55,22 @@ class GoMokuConsole(object):
         print(self.game.game_status())
         x = input("X: ")
         y = input("Y: ")
-        print(self.place_piece(x,y))
+        return self.place_piece(x,y)
 
 
     def run(self):
         while not self.game.game_over:
             self.draw_board()
-            self.get_move()
+            if(self.game.player == 0):
+                print(self.get_move())
+            else:
+                print(self.game.place_rational())
         self.draw_board()
         print(self.game.game_status())
 
 
 if __name__ == "__main__":
-    game = game_engine(win_length=3, player_labels=["Black"])
+    game = game_engine()
     UI = GoMokuConsole(game)
     UI.run()
     
