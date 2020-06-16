@@ -37,12 +37,18 @@ class game_engine(object):
 			self.pieces = [np.zeros((height, width)) for label in player_labels]
 
 
-	def game_board(self):
+	def game_board(self, relabel = False):
 		"""Returns a game board array with all pieces on one board.
-		   Empty spaces are 0, player_label[0] pieces are 1, player_label[1] pieces are 2, etc."""
+		   Empty spaces are 0, player_label[0] pieces are 1, player_label[1] pieces are 2, etc.
+		   If relabel is True then current player's pieces are 1, next player's are 2, etc % num_players."""
+		n = self.num_players
 		result = np.zeros((self.height, self.width))
-		for p in range(self.num_players):
-			result += (p+1)*self.pieces[p]
+		if relabel:
+			c = self.player
+		else:
+			c = 0
+		for p in range(n):
+			result += ((p + c) % n + 1)*self.pieces[p]
 		return result
 
 
