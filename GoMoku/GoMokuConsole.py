@@ -53,8 +53,8 @@ class GoMokuConsole(object):
         """Prompt current player for x and y coordinate to place a piece"""
             
         print(self.game.game_status())
-        x = int(input("X: "))
-        y = int(input("Y: "))
+        x = input("X: ")
+        y = input("Y: ")
         print(self.place_piece(y,x))
 
 

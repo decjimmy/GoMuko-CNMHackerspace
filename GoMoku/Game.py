@@ -143,6 +143,8 @@ class game_engine(object):
 		try:
 			assert not self.game_over, \
 				"after game has ended."
+			assert type(x) == int and type(y) == int, \
+				"but coordinates must be integers."
 			assert x in range(self.width) and y in range(self.height), \
 				"out of range (0, 0)..({0}, {1})".format(self.width-1, self.height-1)
 			assert 1 not in [p[y][x] for p in self.pieces], \
