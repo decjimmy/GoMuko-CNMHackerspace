@@ -166,6 +166,28 @@ class game_engine(object):
 			return msg
 
 
+	def place_rational(self):
+		"""Place the current player's piece according to a hand-coded algorithm.
+		   Identifies all positions which could become completions for any player then
+		   assigns a "temperature" to each empty point based on how many such positions
+		   it is part of.  Choose randomly from points with the maximum temperature.
+		   Returns a string describing the move."""
+		(w, h) = (self.width, self.height)
+		index_labels = np.reshape(range(w*h), (h, w))
+		board = self.game_board(relabel = True)
+		(positions, indices) = self.win_length_slices(board), self.win_length_slices(index_labels)
+		possible_wins = np.array([(p, i) for (p, i) in zip(positions, indices) 
+				   if len(set(p)) == 1 or (len(set(p)) == 2 and 0 in p)])
+		t = [0]*(w*h)
+		for (pslice, islice) in zip(positions, indices):
+			for (p, i) in zip(pslice, islice):
+				if p == 0:
+					t[i] += 1
+		hottest_points = [p for p in np.reshape(index_labels,(w*h,)) if t[int(p)] == max(t)]
+		i = random_choice(hottest_points)
+		(x, y) = (i % w, i // w)
+		return self.place_piece(x, y)
+
 	def place_random(self):
 		"""Place current player's piece randomly.
 		   Returns a string describing the move."""
