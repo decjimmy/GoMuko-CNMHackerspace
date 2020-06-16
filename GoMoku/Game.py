@@ -148,11 +148,8 @@ class game_engine(object):
 				"out of range (0, 0)..({0}, {1})".format(self.width-1, self.height-1)
 			assert 1 not in [p[y][x] for p in self.pieces], \
 				"which is already occupied."
-		except AssertionError as msg:
+		except (AssertionError, ValueError) as msg:
 			return "{0} attempted to play at ({1}, {2}) {3}".format( \
-				self.player_labels[self.player], x, y, msg)
-		except ValueError as msg:
-			return "{0} attempted to play at ({1}, {2}): {3}".format( \
 				self.player_labels[self.player], x, y, msg)
 		else:
 			self.pieces[self.player][y][x] = 1
