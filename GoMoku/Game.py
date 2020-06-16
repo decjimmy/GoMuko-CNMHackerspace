@@ -182,11 +182,26 @@ class game_engine(object):
 		for (pslice, islice) in zip(positions, indices):
 			for (p, i) in zip(pslice, islice):
 				if p == 0:
-					t[i] += 1
+					c = self.win_length - np.count_nonzero(pslice)
+					if c == 1:
+						if self.player in pslice:
+							t[i] += 100
+						else:
+							t[i] += 90
+					elif c == 2:
+						if self.player in pslice:
+							t[i] += 30
+						else:
+							t[i] += 50
+					elif c == 3:
+						t[i] += 5
+					else:
+						t[i] += 4/c
 		hottest_points = [p for p in np.reshape(index_labels,(w*h,)) if t[int(p)] == max(t)]
 		i = random_choice(hottest_points)
 		(x, y) = (i % w, i // w)
 		return self.place_piece(x, y)
+
 
 	def place_random(self):
 		"""Place current player's piece randomly.
