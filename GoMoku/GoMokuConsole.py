@@ -46,7 +46,7 @@ class GoMokuConsole(object):
 
     def place_piece(self, x, y):
         """Place piece of current player in column x of row y"""
-        self.game.place_piece(x, y)
+        return self.game.place_piece(x, y)
 
 
     def get_move(self):
@@ -55,7 +55,7 @@ class GoMokuConsole(object):
         print(self.game.game_status())
         x = int(input("X: "))
         y = int(input("Y: "))
-        self.place_piece(y,x)
+        print(self.place_piece(y,x))
 
 
     def run(self):
