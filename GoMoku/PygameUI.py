@@ -41,7 +41,7 @@ class PygameUI(object):
 			label_rect = row_label.get_rect()
 			label_rect.center = (self.tile_size//2, int((y+1.5)*self.tile_size)) 
 			self.screen.blit(row_label, label_rect)
-			label_rect.center = (self.height - self.tile_size//2, int((y+1.5)*self.tile_size))
+			label_rect.center = (self.width - self.tile_size//2, int((y+1.5)*self.tile_size))
 			self.screen.blit(row_label, label_rect)
 			pygame.draw.line(self.screen, (0,0,0), 
 					(int(1.5*self.tile_size), int((y+1.5)*self.tile_size)),
@@ -50,10 +50,10 @@ class PygameUI(object):
 		board = self.game.game_board()
 		for x in range(self.game.width):
 			for y in range(self.game.height):
-				if(board[x][y] == 0):
+				if(board[y][x] == 0):
 					continue
 				else:
-					if board[x][y] == 1:
+					if board[y][x] == 1:
 						piece_color = (0,0,0,)
 					else:
 						piece_color = (255,255,255)
@@ -79,6 +79,6 @@ class PygameUI(object):
 
 
 if __name__ == "__main__":
-	game = game_engine()
+	game = game_engine(23,9)
 	UI = PygameUI(game)
 	UI.run()
