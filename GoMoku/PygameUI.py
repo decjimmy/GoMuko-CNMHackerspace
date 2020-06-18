@@ -80,6 +80,6 @@ class PygameUI(object):
 
 
 if __name__ == "__main__":
-	game = game_engine()
+	game = game_engine(player_labels=["Black", "DarkGrey", "LightGrey", "White"])
 	UI = PygameUI(game)
 	UI.run()

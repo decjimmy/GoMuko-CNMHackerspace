@@ -238,18 +238,18 @@ class game_engine(object):
 					c = self.win_length - np.count_nonzero(pslice)
 					if c == 1:
 						if 1 in pslice:
-							t[i] += 7
+							t[i] += 1000
 						else:
-							t[i] += 5
+							t[i] += 100
 					elif c == 2:
 						if 1 in pslice:
-							t[i] += 2
+							t[i] += 20
 						else:
-							t[i] += 3
+							t[i] += 20
 					elif c == 3:
-						t[i] += 2
-					else:
 						t[i] += 1
+					else:
+						t[i] += 0
 		hottest_points = [p for p in np.reshape(index_labels,(w*h,)) if t[int(p)] == max(t)]
 		i = random_choice(hottest_points)
 		(x, y) = (i % w, i // w)
