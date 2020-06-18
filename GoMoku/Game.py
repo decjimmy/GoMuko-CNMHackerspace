@@ -9,10 +9,11 @@ class game_engine(object):
 	player = 0		# game starts with the first player's move
 	move_num = 0
 
-	def __init__(self, width=15, height=15, win_length=5, player_labels=["Black", "White"]):
+	def __init__(self, width=15, height=15, win_length=5, player_labels=["Black", "White"], freestyle=False):
 		"""Initialize a generalized GoMoku game for number of players in player_labels.
 		   Play area has dimensions of width by height.
-		   The first player to create a completion of at least win_length wins.
+		   If freestyle is True first player with completion of AT LEAST win_length wins
+		   If freestyle is False first player to create a completion of EXACTLY win_length wins.
 		   Game is a draw if a completion becomes impossible for any player."""
 
 		self.num_players = len(player_labels)
@@ -34,6 +35,7 @@ class game_engine(object):
 			self.height = height
 			self.win_length = win_length
 			self.player_labels = player_labels
+			self.freestyle = freestyle
 			self.pieces = [np.zeros((height, width)) for label in player_labels]
 
 
@@ -60,6 +62,30 @@ class game_engine(object):
 		  for i in range(self.width) 
 		  if board[j][i] == 0]
 
+
+	def all_positions(self, board):
+		"""Returns a list of all rows, columns and diagonals from board of at least win_length"""
+		result = []
+
+		# rot90 rotates rows into columns and downward diagonals into upward diagonals	
+		for b in [board, np.rot90(board)]:
+
+			# rows
+			result.extend([list(row) for row in b if len(row) >= self.win_length])
+
+			# downward diagonals
+			(h, w) = b.shape
+			b = b.reshape((w*h,))
+			
+			# TODO DR Explain why this gets all the downward diagonals of at least win_length.
+			result.extend([ list(d) for d in [b[j*w+i:w*(w-i+j):w+1] 
+						 for j in range(h-self.win_length+1)
+						 for i in range(w-self.win_length+1) if j == 0 or i == 0]
+				  if len(d) >= self.win_length])
+
+		# Must return a list not an array because element lists may be different lengths
+		return result
+		
 
 	def win_length_slices(self, board):
 		"""Returns a list of all win_length slices of a board along rows, columns and diagonals."""
@@ -108,11 +134,34 @@ class game_engine(object):
 	def update_status(self):
 		"""Determine if game is over and why."""
 
-		# A slice that contains more than one non-zero label can never contain a win
-		possible_wins = [s for s in self.win_length_slices(self.game_board()) 
+		positions = self.all_positions(self.game_board())
+		
+		# A sublist of a position with length win_length might be a completion now or 
+		# in the future if it does not contain more than one distinct non-zero value.
+		# If freestyle is False then such sublists mustn't be preceded or followed by that
+		# distinct value in the position.
+
+		# Get list of tuples (win_length_sublist, prev, next) from p
+		possible_wins = []
+		for p in positions:
+			start = 0
+			while start + self.win_length <= len(p):
+				(prev, next) = (None, None)
+				if start > 0:
+					prev = p[start-1]
+				if start + self.win_length < len(p):
+					next = p[start + self.win_length]
+				possible_wins.append((p[start:start+self.win_length], prev, next))
+				start += 1
+
+		# Filter out all positions with more than 1 distinct non-zero value
+		possible_wins = [(s, prev, next) for (s, prev, next) in possible_wins
 				   if len(set(s)) == 1 or (len(set(s)) == 2 and 0 in s)]
 
-		# Game is a draw if there are no possible ways for any player to win
+		# If freestyle is False filter out positions in which prev or next would cause an overline
+		possible_wins = [s for (s, prev, next) in possible_wins
+				   if self.freestyle or not(prev and prev in s) and not(next and next in s)]
+		
 		if not possible_wins:
 			self.game_over = True
 			return
@@ -123,7 +172,7 @@ class game_engine(object):
 						continue
 					self.winner = self.player_labels[int(s[0])-1]
 					self.game_over = True
-					break	
+					break
 
 
 	def game_status(self):
@@ -262,4 +311,5 @@ if __name__ == "__main__":
 	print(game.place_piece(3, 3)) # play on occupied space
 	game.playout_random()
 	print(game.place_piece(3, 3)) # play after game has ended
+	
 	
