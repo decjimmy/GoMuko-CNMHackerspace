@@ -8,6 +8,7 @@ class game_engine(object):
 	winner = False	# label of winner, e.g. "Black" or "White"
 	player = 0		# game starts with the first player's move
 	move_num = 0
+	move_list = []
 
 	def __init__(self, width=15, height=15, win_length=5, player_labels=["Black", "White"], freestyle=False):
 		"""Initialize a generalized GoMoku game for number of players in player_labels.
@@ -35,6 +36,7 @@ class game_engine(object):
 			self.height = height
 			self.win_length = win_length
 			self.player_labels = player_labels
+			self.num_players = len(player_labels)
 			self.freestyle = freestyle
 			self.pieces = [np.zeros((height, width)) for label in player_labels]
 
@@ -162,6 +164,7 @@ class game_engine(object):
 		possible_wins = [s for (s, prev, next) in possible_wins
 				   if self.freestyle or not(prev and prev in s) and not(next and next in s)]
 		
+		# Game is a draw if there are no possible ways for any player to win
 		if not possible_wins:
 			self.game_over = True
 			return
@@ -179,7 +182,7 @@ class game_engine(object):
 		"""Returns a string describing the status of the game."""
 		if(self.game_over):
 			if(self.winner):
-				return "{0} wins on move {1}".format(self.winner, self.move_num)
+				return "{0} wins on move {1}".format(self.winner, self.move_num + 1)
 			else:
 				return "Game is a draw on move {0}".format(self.move_num + 1)
 		else:
@@ -208,6 +211,7 @@ class game_engine(object):
 				self.player_labels[self.player], x, y, msg)
 		else:
 			self.pieces[self.player][y][x] = 1
+			self.move_list.append((self.move_num, self.player, x, y))
 			self.update_status()
 			msg = "{0} plays ({1}, {2})".format(self.player_labels[self.player], x, y)
 			if not self.game_over:

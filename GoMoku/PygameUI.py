@@ -19,7 +19,7 @@ class PygameUI(object):
 		self.running = False
 	
 
-	def draw_board(self):
+	def draw_board(self, move_numbers=False):
 		"""Draw the GoMoku game board"""
 		self.screen.fill(self.board_color)
 
@@ -47,18 +47,19 @@ class PygameUI(object):
 					(int(1.5*self.tile_size), int((y+1.5)*self.tile_size)),
 					(int(self.width - 1.5*self.tile_size), int((y+1.5)*self.tile_size)))
 
-		board = self.game.game_board()
-		for x in range(self.game.width):
-			for y in range(self.game.height):
-				if(board[y][x] == 0):
-					continue
-				else:
-					if board[y][x] == 1:
-						piece_color = (0,0,0,)
-					else:
-						piece_color = (255,255,255)
-					pygame.draw.circle(self.screen, piece_color,
-						(int((x + 1.5)*self.tile_size), int((y + 1.5)*self.tile_size)), self.tile_size // 2)
+		for (move, player, x, y) in self.game.move_list:
+			if player == 0:
+				color = 0
+			else:
+				color = 255*player//(self.game.num_players-1)
+			center_x = int((x + 1.5)*self.tile_size)
+			center_y = int((y + 1.5)*self.tile_size)
+			pygame.draw.circle(self.screen, (color, color, color), (center_x, center_y), self.tile_size // 2)
+			if move_numbers:
+				piece_label = self.font.render(str(move+1), True, self.board_color, (color, color, color))
+				piece_label_rect = piece_label.get_rect()
+				piece_label_rect.center = (center_x, center_y)
+				self.screen.blit(piece_label, piece_label_rect)
 
 
 		pygame.display.set_caption(self.game.game_status()) 
@@ -74,11 +75,11 @@ class PygameUI(object):
 					self.running = False
 			if not self.game.game_over:
 				self.game.place_rational()
-				self.draw_board()
+				self.draw_board(move_numbers=True)
 		pygame.quit()
 
 
 if __name__ == "__main__":
-	game = game_engine(23,9)
+	game = game_engine()
 	UI = PygameUI(game)
 	UI.run()
