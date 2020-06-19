@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>7c383a41-ffe3-44ea-bafe-a54442796b00</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>GoMokuConsole.py</StartupFile>
+    <StartupFile>PygameUI.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -29,6 +29,7 @@
     <Compile Include="GoMokuConsole.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="PygameUI.py" />
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="Global|ContinuumAnalytics|Anaconda37-64" />

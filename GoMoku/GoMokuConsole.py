@@ -1,55 +1,79 @@
-import Game
-class GoMokuConsole(object):
+from Game import game_engine
 
+class GoMokuConsole(object):
     """Console UI to interact with gomoku Game() engine object"""
 
+    def __init__(self, game):
+        self.game = game
 
-    def __init__(self):
-        self.game = Game.Game()
 
-    def drawBoard(self):
-
-        """Draw the game board on the console with B, W and . representing
-           black pieces, white pieces, and empty spaces respectively"""
-
-        board = self.game.BBoard - self.game.WBoard
+    def draw_board(self):
+        """Draw the game board."""      
+        board = self.game.game_board()
+        (w, h) = (self.game.width, self.game.height)
         print()
-        for row in board:
-            for col in row:
-                if col == 1:
-                    print("B", end="")
-                elif col == -1:
-                    print("W", end="")
-                elif col == 0:
-                    print(".", end="")
-                else:
-                    print("?", end="") # should not happen unless boards are corrupted
+        for j in range(h):
+            for i in range(w):
+                p = board[j][i]
+                c = "?"
+                if p == 1:
+                    c ="○"
+                elif p == 2:
+                    c= "●"
+                elif p == 0:
+                    if i == 0:
+                        if j == 0:
+                            c = "┌"
+                        elif j == h-1:
+                            c = "└"
+                        else:
+                            c = "├"
+                    elif i == w-1:
+                        if j == 0:
+                            c = "┐"
+                        elif j == h-1:
+                            c = "┘"
+                        else:
+                            c = "┤"
+                    elif j == 0:
+                        c = "┬"
+                    elif j == h-1:
+                        c = "┴"
+                    else:
+                        c = "┼"
+                print(c, end="")
             print()
 
-    def placePiece(self, x, y):
+    def place_piece(self, x, y):
         """Place piece of current player in column x of row y"""
-        self.game.place_piece(x, y)
+        return self.game.place_piece(x, y)
 
-    def getMove(self):
+
+    def get_move(self):
         """Prompt current player for x and y coordinate to place a piece"""
-        player = self.game.player
-        if player == self.game.BLACK:
-            P = "Black"
-        else:
-            P = "White"
-        print("\nMove {0} ({1})".format(self.game.move, P))
-        x = int(input("X: "))
-        y = int(input("Y: "))
-        self.placePiece(y,x)
+            
+        print(self.game.game_status())
+        x = input("X: ")
+        y = input("Y: ")
+        return self.place_piece(x,y)
+
+
+    def run(self):
+        while not self.game.game_over:
+            self.draw_board()
+            if(self.game.player == 0):
+                print(self.get_move())
+            else:
+                print(self.game.place_rational())
+        self.draw_board()
+        print(self.game.game_status())
 
 
 if __name__ == "__main__":
-    g = GoMokuConsole()
-    gameloop = True
-    while gameloop:
-        g.drawBoard()
-        g.getMove()
-        g.game.check_win()
+    game = game_engine()
+    UI = GoMokuConsole(game)
+    UI.run()
+    
 
 
 
